@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Login Page -->
+  <div id="loginPage" class="login-container">
+    <div class="animated-bg">
+        <div class="circle"
+            style="width: 300px; height: 300px; top: -100px; left: -100px; animation-duration: 15s;"></div>
+        <div class="circle"
+            style="width: 200px; height: 200px; bottom: -50px; right: -50px; animation-duration: 20s;"></div>
+        <div class="circle" style="width: 150px; height: 150px; top: 50%; left: 50%; animation-duration: 25s;">
+        </div>
+    </div>
+    <div class="login-card">
+        <div class="login-logo">
+            <i class="fas fa-graduation-cap" style="font-size: 40px; color: white;"></i>
+        </div>
+        <h1 style="text-align: center; margin-bottom: 8px; font-size: 32px;">EduManage Sénégal</h1>  q 
+        <p style="text-align: center; color: #64748b; margin-bottom: 32px;">Système de Gestion Scolaire</p>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label><i class="fas fa-envelope"></i> Email</label>
+                <input type="email" id="loginEmail" placeholder="admin@edumanage.sn" required
+                    value="admin@edumanage.sn">
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-lock"></i> Mot de passe</label>
+                <input type="password" id="loginPassword" placeholder="••••••" required value="admin123">
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-user-tag"></i> Rôle</label>
+                <select id="loginRole">
+                    <option value="admin">Administrateur</option>
+                    <option value="teacher">Enseignant</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
+                <i class="fas fa-arrow-right"></i> Se connecter
+            </button>
+        </form>
+
+        <div class="login-info">
+            <p><i class="fas fa-info-circle"></i> <strong>Comptes de démonstration :</strong></p>
+            <p>📧 <strong>Administrateur :</strong> admin@edumanage.sn / admin123</p>
+            <p>📧 <strong>Enseignant :</strong> teacher@school.com / teacher123</p>
+        </div>
+    </div>
+</div>
+
+<!-- Dashboard -->
+<div id="dashboardContainer" class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <div class="sidebar-logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <h3>EduManage</h3>
+                    <p style="font-size: 12px; opacity: 0.7;">Sénégal</p>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <div class="sidebar-menu-item active" onclick="showSection('dashboard')">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Tableau de bord</span>
+            </div>
+            <div class="sidebar-menu-item" onclick="showSection('students')">
+                <i class="fas fa-users"></i>
+                <span>Élèves</span>
+            </div>
+            <div class="sidebar-menu-item" onclick="showSection('teachers')">
+                <i class="fas fa-chalkboard-user"></i>
+                <span>Professeurs</span>
+            </div>
+            <div class="sidebar-menu-item" onclick="showSection('classes')">
+                <i class="fas fa-school"></i>
+                <span>Classes</span>
+            </div>
+            <div class="sidebar-menu-item" onclick="showSection('grades')">
+                <i class="fas fa-star"></i>
+                <span>Notes</span>
+            </div>
+            <div class="sidebar-menu-item" onclick="showSection('absences')">
+                <i class="fas fa-calendar-times"></i>
+                <span>Absences</span>
+            </div>
+            <div class="sidebar-menu-item" onclick="showSection('analytics')">
+                <i class="fas fa-chart-line"></i>
+                <span>Analytiques</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <i class="fas fa-bars" style="font-size: 24px; cursor: pointer; display: none;"
+                onclick="toggleSidebar()" id="menuToggle"></i>
+            <h2 id="currentSectionTitle">Tableau de bord</h2>
+        </div>
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="notification-btn" onclick="showNotifications()"
+                style="position: relative; cursor: pointer;">
+                <i class="fas fa-bell" style="font-size: 20px;"></i>
+                <span id="notificationBadge"
+                    style="position: absolute; top: -8px; right: -8px; background: #ef4444; color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px;">0</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;"
+                    id="userAvatar">A</div>
+                <div>
+                    <div id="userName" style="font-weight: 600;">Administrateur</div>
+                    <div style="font-size: 12px; color: #64748b;">Admin</div>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()"
+                style="background: none; border: none; cursor: pointer; padding: 8px;">
+                <i class="fas fa-sign-out-alt" style="font-size: 20px; color: #ef4444;"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Dashboard Section -->
+        <div id="dashboardSection">
+            <div class="stats-grid" id="statsGrid"></div>
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3 style="margin-bottom: 20px;"><i class="fas fa-chart-bar"></i> Répartition des élèves par
+                        classe</h3>
+                    <canvas id="classChart" style="max-height: 300px;"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3 style="margin-bottom: 20px;"><i class="fas fa-chart-line"></i> Performance académique par
+                        matière</h3>
+                    <canvas id="performanceChart" style="max-height: 300px;"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <div class="content-header"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3><i class="fas fa-clock"></i> Activités récentes</h3>
+                    <button class="btn-outline" onclick="exportActivities()">
+                        <i class="fas fa-download"></i> Exporter
+                    </button>
+                </div>
+                <div id="recentActivities"></div>
+            </div>
+        </div>
+
+        <!-- Students Section -->
+        <div id="studentsSection" style="display: none;">
+            <div class="chart-card">
+                <div class="content-header" style="margin-bottom: 20px;">
+                    <h3><i class="fas fa-users"></i> Liste des élèves</h3>
+                    <div style="display: flex; gap: 12px;">
+                        <button class="btn-outline" onclick="exportToExcel('students')">
+                            <i class="fas fa-file-excel"></i> Excel
+                        </button>
+                        <button class="btn-primary" onclick="showModal('student')">
+                            <i class="fas fa-plus"></i> Ajouter
+                        </button>
+                    </div>
+                </div>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="studentSearch" placeholder="Rechercher un élève..."
+                        onkeyup="searchStudents()">
+                </div>
+                <div class="table-container">
+                    <table id="studentsTable">
+                        <thead>
+                            <tr>
+                                <th>Nom complet</th>
+                                <th>Email</th>
+                                <th>Classe</th>
+                                <th>Moyenne</th>
+                                <th>Présence</th>
+                                <th>Actions</th>
+                        </thead>
+                        <tbody id="studentsList"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Teachers Section -->
+        <div id="teachersSection" style="display: none;">
+            <div class="chart-card">
+                <div class="content-header" style="margin-bottom: 20px;">
+                    <h3><i class="fas fa-chalkboard-user"></i> Corps professoral</h3>
+                    <button class="btn-primary" onclick="showModal('teacher')">
+                        <i class="fas fa-plus"></i> Ajouter
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nom complet</th>
+                                <th>Email</th>
+                                <th>Matière</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="teachersList"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Classes Section -->
+        <div id="classesSection" style="display: none;">
+            <div class="chart-card">
+                <div class="content-header" style="margin-bottom: 20px;">
+                    <h3><i class="fas fa-school"></i> Classes</h3>
+                    <button class="btn-primary" onclick="showModal('class')">
+                        <i class="fas fa-plus"></i> Ajouter
+                    </button>
+                </div>
+                <div class="table-container">
+                    able
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Niveau</th>
+                            <th>Effectif</th>
+                            <th>Capacité</th>
+                            <th>Taux</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="classesList"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grades Section -->
+        <div id="gradesSection" style="display: none;">
+            <div class="chart-card">
+                <div class="content-header" style="margin-bottom: 20px;">
+                    <h3><i class="fas fa-star"></i> Relevé des notes</h3>
+                    <button class="btn-primary" onclick="showModal('grade')">
+                        <i class="fas fa-plus"></i> Ajouter
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Élève</th>
+                                <th>Matière</th>
+                                <th>Note</th>
+                                <th>Appréciation</th>
+                                <th>Trimestre</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gradesList"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Absences Section -->
+        <div id="absencesSection" style="display: none;">
+            <div class="chart-card">
+                <div class="content-header" style="margin-bottom: 20px;">
+                    <h3><i class="fas fa-calendar-times"></i> Gestion des absences</h3>
+                    <button class="btn-primary" onclick="showModal('absence')">
+                        <i class="fas fa-plus"></i> Signaler
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Élève</th>
+                                <th>Date</th>
+                                <th>Justifiée</th>
+                                <th>Motif</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="absencesList"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Section -->
+        <div id="analyticsSection" style="display: none;">
+            <div class="stats-grid" id="analyticsStats"></div>
+            <div class="chart-card" style="margin-bottom: 24px;">
+                <h3 style="margin-bottom: 20px;"><i class="fas fa-chart-pie"></i> Taux de réussite global</h3>
+                <canvas id="analyticsChart" style="max-height: 400px;"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3 style="margin-bottom: 20px;"><i class="fas fa-trophy"></i> Meilleurs élèves du Sénégal</h3>
+                <div id="topPerformers"></div>
+            </div>
+        </div>
+    </div>
+
+   <!-- Login Page -->
+   <div id="loginPage" class="login-container">
+    <div class="animated-bg">
+        <div class="circle"
+            style="width: 300px; height: 300px; top: -100px; left: -100px; animation-duration: 15s;"></div>
+        <div class="circle"
+            style="width: 200px; height: 200px; bottom: -50px; right: -50px; animation-duration: 20s;"></div>
+        <div class="circle" style="width: 150px; height: 150px; top: 50%; left: 50%; animation-duration: 25s;">
+        </div>
+    </div>
+    <div class="login-card">
+        <div class="login-logo">
+            <i class="fas fa-graduation-cap" style="font-size: 40px; color: white;"></i>
+        </div>
+        <h1 style="text-align: center; margin-bottom: 8px; font-size: 32px;">EduManage Sénégal</h1>
+        <p style="text-align: center; color: #64748b; margin-bottom: 32px;">Système de Gestion Scolaire</p>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label><i class="fas fa-envelope"></i> Email</label>
+                <input type="email" id="loginEmail" placeholder="admin@edumanage.sn" required
+                    value="admin@edumanage.sn">
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-lock"></i> Mot de passe</label>
+                <input type="password" id="loginPassword" placeholder="••••••" required value="admin123">
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-user-tag"></i> Rôle</label>
+                <select id="loginRole">
+                    <option value="admin">Administrateur</option>
+                    <option value="teacher">Enseignant</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
+                <i class="fas fa-arrow-right"></i> Se connecter
+            </button>
+        </form>
+
+        <div class="login-info">
+            <p><i class="fas fa-info-circle"></i> <strong>Comptes de démonstration :</strong></p>
+            <p>📧 <strong>Administrateur :</strong> admin@edumanage.sn / admin123</p>
+            <p>📧 <strong>Enseignant :</strong> teacher@school.com / teacher123</p>
+        </div>
+    </div>
+</div>
+
+<!-- Dashboard -->
+<div id="dashboardContainer" class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <div class="sidebar-logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <h3>EduManage</h3>
+                    <p style="font-size: 12px; opacity: 0.7;">Sénégal</p>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-menu">
+            <div class="sidebar-menu-item active" onclick="showSection('dashboard')">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Tableau de bord</span>
+            </div>
+            <div class="sidebar-menu-item" onclick="showSection('students')">
+                <i class="fas fa-users"></i>
+                <span>Élèves</span>
+            </div>
+            <div class="sidebar-menu-item" onclick="showSection('teachers')">
+                <i class="fas fa-chalkboard-user"></i>
+                <span>Professeurs</span>
+            </div>
+            <div class="sidebar-menu-item" onclick="showSection('classes')">
+                <i class="fas fa-school"></i>
+                <span>Classes</span>
+            </div>
+            <div class="sidebar-menu-item" onclick="showSection('grades')">
+                <i class="fas fa-star"></i>
+                <span>Notes</span>
+            </div>
+            <div class="sidebar-menu-item" onclick="showSection('absences')">
+                <i class="fas fa-calendar-times"></i>
+                <span>Absences</span>
+            </div>
+            <div class="sidebar-menu-item" onclick="showSection('analytics')">
+                <i class="fas fa-chart-line"></i>
+                <span>Analytiques</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <i class="fas fa-bars" style="font-size: 24px; cursor: pointer; display: none;"
+                onclick="toggleSidebar()" id="menuToggle"></i>
+            <h2 id="currentSectionTitle">Tableau de bord</h2>
+        </div>
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="notification-btn" onclick="showNotifications()"
+                style="position: relative; cursor: pointer;">
+                <i class="fas fa-bell" style="font-size: 20px;"></i>
+                <span id="notificationBadge"
+                    style="position: absolute; top: -8px; right: -8px; background: #ef4444; color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px;">0</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;"
+                    id="userAvatar">A</div>
+                <div>
+                    <div id="userName" style="font-weight: 600;">Administrateur</div>
+                    <div style="font-size: 12px; color: #64748b;">Admin</div>
+                </div>
+            </div>
+            <button class="logout-btn" onclick="logout()"
+                style="background: none; border: none; cursor: pointer; padding: 8px;">
+                <i class="fas fa-sign-out-alt" style="font-size: 20px; color: #ef4444;"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Dashboard Section -->
+        <div id="dashboardSection">
+            <div class="stats-grid" id="statsGrid"></div>
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3 style="margin-bottom: 20px;"><i class="fas fa-chart-bar"></i> Répartition des élèves par
+                        classe</h3>
+                    <canvas id="classChart" style="max-height: 300px;"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3 style="margin-bottom: 20px;"><i class="fas fa-chart-line"></i> Performance académique par
+                        matière</h3>
+                    <canvas id="performanceChart" style="max-height: 300px;"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <div class="content-header"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3><i class="fas fa-clock"></i> Activités récentes</h3>
+                    <button class="btn-outline" onclick="exportActivities()">
+                        <i class="fas fa-download"></i> Exporter
+                    </button>
+                </div>
+                <div id="recentActivities"></div>
+            </div>
+        </div>
+
+        <!-- Students Section -->
+        <div id="studentsSection" style="display: none;">
+            <div class="chart-card">
+                <div class="content-header" style="margin-bottom: 20px;">
+                    <h3><i class="fas fa-users"></i> Liste des élèves</h3>
+                    <div style="display: flex; gap: 12px;">
+                        <button class="btn-outline" onclick="exportToExcel('students')">
+                            <i class="fas fa-file-excel"></i> Excel
+                        </button>
+                        <button class="btn-primary" onclick="showModal('student')">
+                            <i class="fas fa-plus"></i> Ajouter
+                        </button>
+                    </div>
+                </div>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="studentSearch" placeholder="Rechercher un élève..."
+                        onkeyup="searchStudents()">
+                </div>
+                <div class="table-container">
+                    <table id="studentsTable">
+                        <thead>
+                            <tr>
+                                <th>Nom complet</th>
+                                <th>Email</th>
+                                <th>Classe</th>
+                                <th>Moyenne</th>
+                                <th>Présence</th>
+                                <th>Actions</th>
+                        </thead>
+                        <tbody id="studentsList"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Teachers Section -->
+        <div id="teachersSection" style="display: none;">
+            <div class="chart-card">
+                <div class="content-header" style="margin-bottom: 20px;">
+                    <h3><i class="fas fa-chalkboard-user"></i> Corps professoral</h3>
+                    <button class="btn-primary" onclick="showModal('teacher')">
+                        <i class="fas fa-plus"></i> Ajouter
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nom complet</th>
+                                <th>Email</th>
+                                <th>Matière</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="teachersList"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Classes Section -->
+        <div id="classesSection" style="display: none;">
+            <div class="chart-card">
+                <div class="content-header" style="margin-bottom: 20px;">
+                    <h3><i class="fas fa-school"></i> Classes</h3>
+                    <button class="btn-primary" onclick="showModal('class')">
+                        <i class="fas fa-plus"></i> Ajouter
+                    </button>
+                </div>
+                <div class="table-container">
+                    able
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Niveau</th>
+                            <th>Effectif</th>
+                            <th>Capacité</th>
+                            <th>Taux</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="classesList"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grades Section -->
+        <div id="gradesSection" style="display: none;">
+            <div class="chart-card">
+                <div class="content-header" style="margin-bottom: 20px;">
+                    <h3><i class="fas fa-star"></i> Relevé des notes</h3>
+                    <button class="btn-primary" onclick="showModal('grade')">
+                        <i class="fas fa-plus"></i> Ajouter
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Élève</th>
+                                <th>Matière</th>
+                                <th>Note</th>
+                                <th>Appréciation</th>
+                                <th>Trimestre</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gradesList"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Absences Section -->
+        <div id="absencesSection" style="display: none;">
+            <div class="chart-card">
+                <div class="content-header" style="margin-bottom: 20px;">
+                    <h3><i class="fas fa-calendar-times"></i> Gestion des absences</h3>
+                    <button class="btn-primary" onclick="showModal('absence')">
+                        <i class="fas fa-plus"></i> Signaler
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Élève</th>
+                                <th>Date</th>
+                                <th>Justifiée</th>
+                                <th>Motif</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="absencesList"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Section -->
+        <div id="analyticsSection" style="display: none;">
+            <div class="stats-grid" id="analyticsStats"></div>
+            <div class="chart-card" style="margin-bottom: 24px;">
+                <h3 style="margin-bottom: 20px;"><i class="fas fa-chart-pie"></i> Taux de réussite global</h3>
+                <canvas id="analyticsChart" style="max-height: 400px;"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3 style="margin-bottom: 20px;"><i class="fas fa-trophy"></i> Meilleurs élèves du Sénégal</h3>
+                <div id="topPerformers"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <div class="fab" onclick="quickAdd()">
+        <i class="fas fa-plus"></i>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header"
+            style="padding: 24px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+            <h3 id="modalTitle" style="font-size: 24px;">Ajouter</h3>
+            <span class="close" onclick="closeModal()" style="cursor: pointer; font-size: 28px;">&times;</span>
+        </div>
+        <div class="modal-body" style="padding: 24px;">
+            <form id="modalForm">
+                <div id="modalFields"></div>
+                <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
+                    <i class="fas fa-save"></i> Enregistrer
+                </button>
+            </form>
+        </div>
+    </div>
+</div> <!-- Floating Action Button -->
+    <div class="fab" onclick="quickAdd()">
+        <i class="fas fa-plus"></i>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header"
+            style="padding: 24px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+            <h3 id="modalTitle" style="font-size: 24px;">Ajouter</h3>
+            <span class="close" onclick="closeModal()" style="cursor: pointer; font-size: 28px;">&times;</span>
+        </div>
+        <div class="modal-body" style="padding: 24px;">
+            <form id="modalForm">
+                <div id="modalFields"></div>
+                <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
+                    <i class="fas fa-save"></i> Enregistrer
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+    
+    <script src="script.jsj"></script>
+</body>
+</html>
